@@ -5,6 +5,7 @@ import model.Sale;
 import model.Vehicle;
 import model.VehicleType;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +51,25 @@ public class SaleService {
             return;
         }
 
+        DecimalFormat formatoMoneda = new DecimalFormat("#,###.00");
         System.out.println("Ventas de " + selectedType.name() + ":");
 
         for (Sale sale : sales) {
-            System.out.println("  - Monto: $" + sale.getAmount()
-                    + " | Comprador: " + sale.getName()
-                    + " " + sale.getSurname()
-                    + " (Doc: " + sale.getDni() + ")");
+            Vehicle vehiculo = buscarVehiculoPorCodigo(sale.getVehicleCode());
+            
+            System.out.println("\n  ========================================");
+            System.out.println("  Vehiculo Vendido:");
+            System.out.println("    - Codigo: " + sale.getVehicleCode());
+            if (vehiculo != null) {
+                System.out.println("    - Marca: " + vehiculo.getBrand());
+                System.out.println("    - Modelo: " + vehiculo.getModel());
+                System.out.println("    - Tipo: " + vehiculo.getType());
+            }
+            System.out.println("  Informacion de Venta:");
+            System.out.println("    - Monto: $" + formatoMoneda.format(sale.getAmount()));
+            System.out.println("    - Comprador: " + sale.getName() + " " + sale.getSurname());
+            System.out.println("    - Documento: " + sale.getDni());
+            System.out.println("  ========================================");
         }
 
     }
